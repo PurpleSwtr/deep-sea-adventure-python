@@ -3,7 +3,7 @@ from core.types import PlayerChoice
 
 def choice(choices: list) -> str:
     result = inquirer.checkbox(
-        message="Выберите действие (можно выбрать только одно):",
+        message="Выберите действие:",
         choices=choices,
         validate=lambda x: len(x) == 1,
     ).execute()

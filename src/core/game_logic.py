@@ -59,42 +59,43 @@ class GameLogic():
             case PlayerChoice.ROLL_DICE:
                 # Бросаем кубики и ходим на нужное количество клекток
                 dices = self._roll_dice()
+                print(f'Выкинул {dices}')
                 amount = self.get_length_turn(diver=diver, dices=dices)
-                self.dive(diver=diver, amount=amount, direction_up=diver.turned)
+                print(f'amount: {amount}')
+                self.dive(diver=diver, amount=amount)
                 ...
 
-    def process_choice_with_treasure(
-            self, 
-            diver: Diver, 
-            choice: PlayerChoice, 
-            step_to: int,
-            
-            ):
-        match choice:
-            case PlayerChoice.NOTHING:
-                ...
-            case PlayerChoice.PICK:
-                treasure = self.sea_map.treasures.pop(step_to)
-                if isinstance(treasure, Treasure):
-                    diver.add_treasure(treasure=treasure)
-                self.sea_map.treasures.insert(step_to, diver)
-            case PlayerChoice.THROW:
-                ...
-
-        
-
-    def dive(self, diver: Diver, amount: int, direction_up: bool):
+    def dive(self, diver: Diver, amount: int):
         current_diver_position = diver.position
-        if not direction_up:
+        if not diver.turned:
             next_diver_position = current_diver_position + amount
         else:
             next_diver_position = current_diver_position - amount
         
         if next_diver_position != current_diver_position:
-            treasure = self.sea_map.treasures[next_diver_position]
+            step_to = next_diver_position
+            treasure = self.sea_map.treasures.pop(next_diver_position)
             if isinstance(treasure, Treasure):
                 # TODO: логика выбора
-                self.process_choice_with_treasure(diver=diver, choice=PlayerChoice.PICK, step_to=next_diver_position)
+                
+                self.process_choice_with_treasure(diver=diver, choice=PlayerChoice.PICK, treasure=treasure, step_to=step_to)
                 ...
         
-        ...
+    def process_choice_with_treasure(
+            self, 
+            diver: Diver, 
+            choice: PlayerChoice, 
+            treasure: Treasure,
+            step_to: int
+            ):
+        print(f'step_to: {step_to}')
+        step_to = 1
+        self.sea_map.treasures.insert(step_to, diver)
+        match choice:
+            case PlayerChoice.NOTHING:
+                ...
+            case PlayerChoice.PICK:
+                if isinstance(treasure, Treasure):
+                    diver.add_treasure(treasure=treasure)
+            case PlayerChoice.THROW:
+                ...
