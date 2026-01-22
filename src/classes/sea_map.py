@@ -9,15 +9,16 @@ class SeaMap():
         self.treasures: list[CellContent] = []
     
     def init_start_treasures(self):
-        # for tr in range(1,5):
-        #     for i in range(8):
-        #         new_tr = Treasure()
-        #         new_tr.level = tr
-        #         self.treasures.append(new_tr)
-        for i, tr in enumerate(range(32)):
-            new_tr = Treasure()
-            new_tr.level = tr
-            self.treasures.append(new_tr)
+        for tr in range(1,5):
+            for i in range(8):
+                new_tr = Treasure()
+                new_tr.level = tr
+                self.treasures.append(new_tr)
+        # Версия для тестов
+        # for i, tr in enumerate(range(90)):
+        #     new_tr = Treasure()
+        #     new_tr.level = tr
+        #     self.treasures.append(new_tr)
 
     def set_treasures(self, treasures: list[Treasure | None | Diver]):
         self.treasures = treasures

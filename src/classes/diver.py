@@ -2,6 +2,7 @@ from classes.treasure import Treasure
 
 class Diver():
     def __init__(self) -> None:
+        self.name: str = ""
         self.treasures: list[Treasure] = []
         self.victory_points: int = 0
         self.position: int = -1

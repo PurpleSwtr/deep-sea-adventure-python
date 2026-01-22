@@ -7,6 +7,7 @@ from presentation.ui_choice import display_player_choice
 from core.config import player_choices_treasure, player_choices_walk
 
 from classes.sea_map import SeaMap
+from core.types import PlayerChoice
 
 def main():
     tr = Treasure()
@@ -25,21 +26,44 @@ def main():
     
 
     gl.sea_map.init_start_treasures()
-    
-    print_submarine_info(oxygen=25)
-    gl.sea_map.display_map()
+    # ==============================
+    #           ПОДГОТОВКА
+    # ==============================
+
+    # print_submarine_info(oxygen=25)
+    # gl.sea_map.display_map()
     # print_sea_map_info(sea_map=map)
-    print()
-    c_walk = display_player_choice(player_choices_walk)
 
-    print(c_walk)
+    while True:
+        gl.display_interface()
 
-    gl.process_choice_walk(diver=diver, choice=c_walk)
+        print()
+        c_walk = display_player_choice(player_choices_walk)
+
+        print(c_walk)
+        print()
+
+        treasure = gl.process_choice_walk(diver=diver, choice=c_walk)
+
+        choice_treasure = None
 
 
+        if isinstance(treasure, Treasure):
+            gl.message_box.update_message(f'На кону сокровище {treasure.level} ценности!')
+            gl.display_interface()
+            
+            c_treasure = display_player_choice(player_choices_treasure)
+            
+            choice_treasure = gl.process_choice_with_treasure(diver=diver, choice=c_treasure, treasure=treasure)
+            ...
+        else:
+            gl.message_box.update_message('Вы не нашли сокровищ')
+        
+        gl.sea_map.display_map()
 
+        # if choice_treasure == PlayerChoice.PICK:
+        #     gl.sea_map.treasures[diver.position] = None
 
-    gl.sea_map.display_map()
 
     
 

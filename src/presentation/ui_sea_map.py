@@ -1,5 +1,24 @@
+def transform_list(lst: list) -> list:
+    result = []
+    reverse_next = True
+    i = 0
+    while i < len(lst):
+        if reverse_next:
+            result.append(lst[i])
+            block = lst[i+1:i+8]
+            result.extend(reversed(block))
+            i += 8
+        else:
+            block = lst[i:i+8]
+            result.extend(block)
+            i += 8
+        reverse_next = not reverse_next
+    return result
+
 def print_sea_map_info(sea_map: list[str]):
 
+    copy_sea_map = sea_map
+    copy_sea_map = transform_list(copy_sea_map)
     overflow = 0
     padding = 1
     first = True
@@ -9,7 +28,7 @@ def print_sea_map_info(sea_map: list[str]):
                          (  --         ~~~~--_,
                           ~~~~~~~~~~~~~~~~~~~'`
     """, end='')
-    for tile in sea_map:
+    for tile in copy_sea_map:
 
         to_print = f' [{tile}] '
         if first:
